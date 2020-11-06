@@ -1,9 +1,13 @@
-import React, {useState} from 'react'
-import * as axios from 'axios'
+import React, {useEffect, useState} from 'react'
+import { useDispatch } from 'react-redux';
+import { getUser, logIn } from '../../redux/authReducer';
+import styles from './Auth.module.css'
 
 const Auth = () => {
-	const [loginInput, setLoginInput] = useState('')
+	const [emailInput, setLoginInput] = useState('')
 	const [passwordInput, setPasswordInput] = useState('')
+	const dispatch = useDispatch()
+
 	const onLoginInputChange = (e) => {
 		setLoginInput(e.target.value)
 	}
@@ -12,20 +16,20 @@ const Auth = () => {
 	}
 	const onSubmit = (e) => {
 		e.preventDefault()
-		console.log(loginInput + ' ' + passwordInput)
-		axios.get('https://social-network.samuraijs.com/api/1.0/auth/me', {
-			withCredentials: true
-		})
-			.then(response => console.log(response.data))
+		dispatch(logIn(emailInput, passwordInput))
 	}
-	return <>
-		<div>Auth page</div>
+
+	useEffect(() => {
+		dispatch(getUser())
+	}, [dispatch])
+	return <div className={styles.form}>
+		<div className={styles.title}>Sing In</div>
 		<form onSubmit={onSubmit}>
-			<input type="text" name="login" onChange={onLoginInputChange} placeholder="login" value={loginInput}/>
-			<input type="text" name="password" onChange={onPasswordInputChange} placeholder="password" value={passwordInput}/>
-			<button>submit</button>
+			<input className={styles.input} type="text" name="login" onChange={onLoginInputChange} placeholder="Your email" value={emailInput}/>
+			<input className={styles.input} type="text" name="password" onChange={onPasswordInputChange} placeholder="Your password" value={passwordInput}/>
+			<button className={styles.btn}>Get Started</button>
 		</form>
-	</>
+	</div>
 }
 
 export default Auth

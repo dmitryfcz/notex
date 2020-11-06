@@ -1,0 +1,21 @@
+.navLink {
+    display: flex;
+    align-items: center;
+    color: #545454;
+    font-weight: 600;
+    text-decoration: none;
+    height: 50px;
+    border-radius: 7px;
+    padding-left: 10px;
+}
+.navLink img {
+    width: 30px;
+    padding-right: 10px;
+}
+.navLink:not(.active):hover {
+    background-color: #f1f3f4;
+}
+.active {
+    background-color: #e8f0fe;
+    color: #1a73e8;
+}
