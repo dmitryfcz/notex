@@ -3,27 +3,54 @@ import './App.css';
 import Auth from "./Components/Auth/Auth";
 import Profile from "./Components/Profile/Profile";
 import Nav from "./Components/Nav/Nav";
-import { BrowserRouter, Route } from "react-router-dom";
-import { Provider } from 'react-redux';
-import store from './redux/store';
+import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
+import { useDispatch, useSelector } from 'react-redux';
+import { getUser } from './redux/authReducer';
+import { useEffect } from 'react';
+import NotFound from './Components/NotFound/NotFound';
+import Settings from './Components/Settings/Settings';
+import Users from './Components/Users/Users';
 
 const App = () => {
+  const isInit = useSelector(state => state.auth.isInit)
+  const isLogin = useSelector(state => state.auth.login)
+  const dispatch = useDispatch()
+  
+  useEffect(() => {
+    dispatch(getUser())
+  }, [dispatch])
+  
+  if (!isInit) return null
+  
   return (
-    <Provider store={store}>
-      <BrowserRouter>
-        <aside>
+    <BrowserRouter>
+        {!isLogin && <Redirect to='/auth' />}
+        <aside className={!isLogin && 'disable'}>
           <Nav />
         </aside>
         <main>
-          <Route path='/auth'>
-            <Auth />
-          </Route>
-          <Route path='/profile/:id?'>
-            <Profile />
-          </Route>
+          <Switch>
+            <Route path='/auth'>
+              <Auth />
+            </Route>
+            <Route path="/profile/:id?">
+              <Profile/>
+            </Route>
+            <Route path='/users'>
+              <Users />
+            </Route>
+            <Route path='/settings'>
+              <Settings/>
+            </Route>
+            <Route exact path='/'>
+              <Profile/>
+            </Route>
+            <Route path='*'>
+                <NotFound/>
+            </Route>
+        </Switch>
         </main>
       </BrowserRouter>
-    </Provider>
   )
 }
 

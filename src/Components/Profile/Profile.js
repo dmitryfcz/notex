@@ -1,38 +1,50 @@
-import React, {useEffect, useState} from 'react'
-import {authAPI, profileAPI} from "../../api/api";
-import {useParams, useHistory} from 'react-router-dom'
+import React, {useEffect} from 'react'
+import {Redirect, useHistory, useParams} from 'react-router-dom'
 import styles from './Profile.module.css'
+import { useDispatch, useSelector } from 'react-redux';
+import { setProfileAC, getStatus } from '../../redux/profileReducer';
+import NotFound from '../NotFound/NotFound';
+import Status from './Status';
+// import Loader from '../Loader/Loader';
+
 
 const Profile = () => {
-	const [profile, setProfile] = useState(null)
 	let { id } = useParams()
-	let history = useHistory()
-	if (!id) {
-		authAPI.me()
-			.then(response => history.push(`/profile/${response.data.id}`))
-	}
+
+	const loggedUserID = useSelector(state => state.auth.id)
+	const history = useHistory()
+	if (!id) history.push(`/profile/${loggedUserID}`)
+
+	const dispatch = useDispatch()
+	const profile = useSelector(state => state.profile)
 	useEffect(() => {
-		profileAPI.getProfile(id)
-			.then(response => setProfile(response))
-			.catch(error => setProfile(null))
-	}, [id])
+		if (id) {
+			dispatch(setProfileAC(id))
+			dispatch(getStatus(id))
+		}
+	}, [id, dispatch, profile.userID])
+	let isPageOwner = Number(id) === loggedUserID
+
+	if (profile.isFetching) return <div style={{height: 470}}></div>
+	if (!loggedUserID) return <Redirect to='/auth' />
+	if (!profile.userId) return <NotFound />
+
 	return (
 		<>
-			{profile ?
+			{!profile.isFetching ?
 				<div className={styles.profile}>
 					<img src={profile.photos.large} alt='userpic'/>
 					<div className={styles.login}>{profile.fullName}</div>
-					<div className={styles.status}>
-						«With great power comes great responsibility»
-						<i className="fas fa-pencil-alt"></i>
-					</div>
-					<div>{profile.aboutMe}</div>
-					<div>{profile.lookingForAJob ? 'Ищу работу' : 'Не ищу'}</div>
-					<div>{profile.lookingForAJobDescription}</div>
-					<div>Contacts:</div>
+					<Status isPageOwner={isPageOwner} status={profile.status} />
+					<div className={styles.about}><b><i className="fas fa-user"></i> About me: </b>{profile.aboutMe}</div>
+					<div className={styles.about}><b><i className="fas fa-atom"></i> Tech stack: </b>{profile.lookingForAJobDescription}</div>
+					<div className={styles.about}><b><i className="fas fa-briefcase"></i> Looking for a job: </b>{profile.lookingForAJob ? 'Yes' : 'No'}</div>
+					<div className={styles.about}><b><i class="fas fa-id-card"></i> Contacts:</b></div>
+					<ul>
 					{Object.keys(profile.contacts).map(key => {
-						return <div key={key}>{key}: {profile.contacts[key] || '--'}</div>
+						return <li key={key}><a href={profile.contacts[key] || '#'}>{key}</a></li>
 					})}
+					</ul>
 				</div>
 				: <div>404 Page not found</div>
 			}

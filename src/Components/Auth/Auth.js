@@ -1,12 +1,16 @@
-import React, {useEffect, useState} from 'react'
-import { useDispatch } from 'react-redux';
-import { getUser, logIn } from '../../redux/authReducer';
+import React, {useState} from 'react'
+import { useDispatch, useSelector } from 'react-redux';
+import { Redirect } from 'react-router-dom';
+import { logIn } from '../../redux/authReducer';
 import styles from './Auth.module.css'
 
 const Auth = () => {
 	const [emailInput, setLoginInput] = useState('')
 	const [passwordInput, setPasswordInput] = useState('')
 	const dispatch = useDispatch()
+
+	const loggedUserID = useSelector(state => state.auth.id)
+	if (loggedUserID) return <Redirect to='/profile' />
 
 	const onLoginInputChange = (e) => {
 		setLoginInput(e.target.value)
@@ -19,9 +23,6 @@ const Auth = () => {
 		dispatch(logIn(emailInput, passwordInput))
 	}
 
-	useEffect(() => {
-		dispatch(getUser())
-	}, [dispatch])
 	return <div className={styles.form}>
 		<div className={styles.title}>Sing In</div>
 		<form onSubmit={onSubmit}>

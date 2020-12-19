@@ -21,8 +21,13 @@
     font-size: 15px;
     margin-bottom: 15px;
     outline: none;
+    transition: ease-in 0.05s;
+}
+.input:focus {
+    box-shadow: 0 0 0 3px #f6f6f6;
 }
 .btn {
+    font-family: inherit;
     background-color: #377dff;
     height: 45px;
     border-radius: 7px;

@@ -1,11 +1,13 @@
 import {authAPI} from '../api/api'
 
+const INIT_APP = 'app/INIT_APP'
 const SET_USER = 'auth/SET_USER'
 
 const initialState = {
 	id: null,
 	login: null,
-	email: null
+	email: null,
+	isInit: false
 }
 
 const authReducer = (state = initialState, action) => {
@@ -15,10 +17,17 @@ const authReducer = (state = initialState, action) => {
 				...state,
 				...action.payload
 			}
+		case INIT_APP:
+			return {
+				...state,
+				isInit: true
+			}
 		default:
 			return state
 	}
 }
+
+const initApp = () => ({ type: INIT_APP })
 
 const setUser = (id, login, email) => ({
 	type: SET_USER,
@@ -32,6 +41,7 @@ export const getUser = () => dispatch => {
 				const {id, login, email} = response.data
 				dispatch(setUser(id, login, email))
 			}
+			dispatch(initApp())
 		})
 }
 
