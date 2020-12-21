@@ -14,13 +14,16 @@
     width: 100px;
     border-radius: 50%;
 }
-.user p {
+.userName {
     margin: 10px 0 5px;
     text-align: center;
     font-weight: 600;
     text-transform: capitalize;
     word-break: break-all;
     margin-top: 5px;
+    display: block;
+    color: #545454;
+    text-decoration: none;
 }
 .btn {
     font-family: inherit;
@@ -40,4 +43,30 @@
 }
 .btn:hover {
     background-color: #1a73e8;
+}
+.pagination {
+    padding: 0;
+    text-align: center;
+}
+.navItem {
+    display: inline-block;
+    margin: 5px;
+}
+.navItem a {
+    border-radius: 5px;
+    background-color:#e8f0fe;
+    text-decoration: none;
+    padding: 10px 15px;
+    color: #545454;
+    display: block;
+    line-height: 22px;
+}
+.navItem a:hover {
+    opacity: 0.7;
+}
+.navActive a {
+    background-color: #377dff;
+}
+.navActive a {
+    color: #ffffff;
 }

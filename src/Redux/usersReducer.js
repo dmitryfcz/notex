@@ -5,7 +5,8 @@ const SET_USERS = 'users/SET_USERS'
 const initialState = {
     users: [],
     page: 1,
-    usersCount: null
+    usersCount: null,
+    pageSize: 9
 }
 
 const usersReducer = (state = initialState, action) => {
@@ -21,8 +22,8 @@ const usersReducer = (state = initialState, action) => {
     }
 }
 
-export const getUsers = (page) => dispatch => {
-    usersAPI.getUsers(page)
+export const getUsers = (page, pageSize) => dispatch => {
+    usersAPI.getUsers(page, pageSize)
         .then(response => dispatch({
             type: SET_USERS,
             payload: {

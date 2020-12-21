@@ -43,10 +43,10 @@ const Settings = () => {
                     <Field name="lookingForAJobDescription" id="lookingForAJobDescription" />
                     <label htmlFor='lookingForAJob' className={styles.job}>Lookin for a job: <Field name="lookingForAJob" id="lookingForAJob" type="checkbox" /></label>
                     { Object.keys(profile.contacts).map(key => {
-                        return <>
+                        return <div key={key}>
                             <label htmlFor={`contacts.${key}`} className={styles.contact}>{key}:</label>
                             <Field name={`contacts.${key}`} id={`contacts.${key}`} />
-                        </>
+                        </div>
                     })}
                     <button className={styles.btn} type="submit" disabled={isSubmitting}>Submit</button>
                     { status && status.map(el => (

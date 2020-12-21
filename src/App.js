@@ -25,7 +25,7 @@ const App = () => {
   return (
     <BrowserRouter>
         {!isLogin && <Redirect to='/auth' />}
-        <aside className={!isLogin && 'disable'}>
+        <aside className={!isLogin ? 'disable' : undefined}>
           <Nav />
         </aside>
         <main>
@@ -36,7 +36,7 @@ const App = () => {
             <Route path="/profile/:id?">
               <Profile/>
             </Route>
-            <Route path='/users'>
+            <Route path='/users/:currentPage?'>
               <Users />
             </Route>
             <Route path='/settings'>
