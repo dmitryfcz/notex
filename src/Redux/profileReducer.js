@@ -1,8 +1,10 @@
-import { profileAPI } from "../api/api"
+import { followAPI, profileAPI } from "../api/api"
 
 const SET_PROFILE = 'profile/SET_PROFILE'
 const TOGGLE_FETCHING = 'profile/TOGGLE_FETCHING'
 const SET_STATUS = 'profile/SET_STATUS'
+const IS_FOLLOWED = 'profile/IS_FOLLOWED'
+const TOGGLE_IS_FOLLOWED = 'profile/TOGGLE_IS_FOLLOWED'
 
 const initialState = {
     aboutMe: null,
@@ -25,6 +27,7 @@ const initialState = {
         large: null
     },
     status: null,
+    isFollowed: false,
     isFetching: false,
 }
 const profileReducer = (state = initialState, action) => {
@@ -44,6 +47,16 @@ const profileReducer = (state = initialState, action) => {
                 ...state,
                 status: action.status
             }
+        case IS_FOLLOWED:
+            return {
+                ...state,
+                isFollowed: action.isFollowed
+            }
+        case TOGGLE_IS_FOLLOWED:
+            return {
+                ...state,
+                isFollowed: !state.isFollowed
+            }
         default:
             return state
     }
@@ -53,6 +66,7 @@ const setStatus = (status) => ({ type: SET_STATUS, status})
 
 export const setProfileAC = id => dispatch => {
     dispatch({ type: TOGGLE_FETCHING })
+    dispatch(getIsFollowed(id))
     profileAPI.getProfile(id)
     .then(response => {
         dispatch({ type: SET_PROFILE, payload: response.data })
@@ -82,6 +96,13 @@ export const updateProfile = (data, setSubmitting, setStatus, setUpdated) => {
             }
         })
 }
+
+export const getIsFollowed = id => dispatch => {
+    followAPI.isFollowed(id)
+    .then(response => dispatch({type: IS_FOLLOWED, isFollowed: response}))
+}
+
+export const toggleIsFollowed = () => ({ type: TOGGLE_IS_FOLLOWED })
 
 export const getStatus = id => dispatch => {
     profileAPI.getStatus(id)

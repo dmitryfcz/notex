@@ -1,13 +1,13 @@
 import React, {useEffect} from 'react'
 import {Redirect, useHistory, useParams} from 'react-router-dom'
 import styles from './Profile.module.css'
+import btnStyles from '../Users/Users.module.css'
 import { useDispatch, useSelector } from 'react-redux';
 import { setProfileAC, getStatus } from '../../redux/profileReducer';
+import { follow, unfollow } from './../../redux/usersReducer'
 import NotFound from '../NotFound/NotFound';
 import Status from './Status';
 import Avatar from 'react-avatar';
-// import Loader from '../Loader/Loader';
-
 
 const Profile = () => {
 	let { id } = useParams()
@@ -18,6 +18,8 @@ const Profile = () => {
 
 	const dispatch = useDispatch()
 	const profile = useSelector(state => state.profile)
+	const isFollowProcessing = useSelector(state => state.users.isFollowProcessing)
+
 	useEffect(() => {
 		if (id) {
 			dispatch(setProfileAC(id))
@@ -30,6 +32,13 @@ const Profile = () => {
 	if (!loggedUserID) return <Redirect to='/auth' />
 	if (!profile.userId) return <NotFound />
 
+	const onFollow = id => {
+		dispatch(follow(id))
+    }
+    const onUnfollow = id => {
+		dispatch(unfollow(id))
+    }
+
 	return (
 		<>
 			{!profile.isFetching ?
@@ -40,6 +49,10 @@ const Profile = () => {
 					}
 					<div className={styles.login}>{profile.fullName}</div>
 					<Status isPageOwner={isPageOwner} status={profile.status} />
+					{ isPageOwner ? null : profile.isFollowed
+                        ? <div className={styles.btns}><button onClick={() => onUnfollow(profile.userId)} className={btnStyles.btn + ' ' + btnStyles.btnUnfollow} disabled={isFollowProcessing.some(id => id === profile.userId)}>Unfollow</button></div>
+                        : <div className={styles.btns}><button onClick={() => onFollow(profile.userId)} className={btnStyles.btn} disabled={isFollowProcessing.some(id => id === profile.userId)}>Follow</button></div>
+                    }
 					<div className={styles.about}><b><i className="fas fa-user"></i> About me: </b>{profile.aboutMe}</div>
 					<div className={styles.about}><b><i className="fas fa-atom"></i> Tech stack: </b>{profile.lookingForAJobDescription}</div>
 					<div className={styles.about}><b><i className="fas fa-briefcase"></i> Looking for a job: </b>{profile.lookingForAJob ? 'Yes' : 'No'}</div>

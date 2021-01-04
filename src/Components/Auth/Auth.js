@@ -27,7 +27,7 @@ const Auth = () => {
 		<div className={styles.title}>Sing In</div>
 		<form onSubmit={onSubmit}>
 			<input className={styles.input} type="text" name="login" onChange={onLoginInputChange} placeholder="Your email" value={emailInput}/>
-			<input className={styles.input} type="text" name="password" onChange={onPasswordInputChange} placeholder="Your password" value={passwordInput}/>
+			<input className={styles.input} type="password" name="password" onChange={onPasswordInputChange} placeholder="Your password" value={passwordInput}/>
 			<button className={styles.btn}>Get Started</button>
 		</form>
 	</div>

@@ -23,6 +23,11 @@
     font-size: 25px;
     font-weight: 600;
     text-align: center;
+    text-transform: capitalize;
+}
+.btns {
+    text-align: center;
+    margin: -15px 0 30px;
 }
 .profile b {
     font-weight: 600;
