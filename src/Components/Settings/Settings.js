@@ -48,7 +48,7 @@ const Settings = () => {
                             <Field name={`contacts.${key}`} id={`contacts.${key}`} />
                         </div>
                     })}
-                    <button className={styles.btn} type='submit' disabled={isSubmitting}>Submit</button>
+                    <button className={styles.btn} type='submit' disabled={isSubmitting}>Save</button>
                     { status && status.map(el => (
                         <div key='el' className={styles.errorMessage}>{el}</div>
                     ))}
