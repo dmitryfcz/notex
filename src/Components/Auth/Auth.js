@@ -24,8 +24,8 @@ const Auth = () => {
 			>
 				{({isSubmitting, status}) => (
 					<Form>
-						<Field name='login' id='login' className={styles.input} placeholder='Your email' />
-						<Field name='password' id='password' type='password' className={styles.input} placeholder='Your password' />
+						<Field name='login' id='login' className={styles.input} placeholder='Your email' required />
+						<Field name='password' id='password' type='password' className={styles.input} placeholder='Your password' required />
 						{ captcha && <>
 							<img src={captcha} className={styles.captcha} alt='captcha' />
 							<Field name='captcha' id='captcha' className={styles.input} placeholder='Please enter the captcha' />
