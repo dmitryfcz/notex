@@ -20,8 +20,8 @@ aside {
   width: 200px;
   margin-right: 20px;
 }
-
-main {
+.main {
+  position: relative;
   width: 600px;
   background: #fff;
   border-radius: 7px;
@@ -31,4 +31,27 @@ main {
 
 .sb-avatar {
   opacity: 0.85;
+}
+
+@media (max-width: 850px) {
+  aside {
+    z-index: 10;
+    position: fixed;
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    margin-right: 0;
+    background: #fff;
+    box-shadow: 0 1px 4px 0 rgba(21,27,38,.03);
+  }
+  body {
+    padding-top: 0;
+  }
+  main {
+    padding: 70px 15px 0;
+    width: 100%;
+  }
+  .main {
+    width: 100%;
+  }
 }

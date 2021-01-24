@@ -4,15 +4,15 @@ import { useDispatch, useSelector } from 'react-redux'
 import { follow, getUsers, unfollow } from './../../redux/usersReducer'
 import styles from './Users.module.css'
 import Avatar from 'react-avatar';
-import Pagination from "react-js-pagination";
+import Pagination from 'react-js-pagination';
 import { Link, useHistory, useLocation, useParams } from 'react-router-dom'
 import { Field, Form, Formik } from 'formik'
 
 const Users = () => {
     const dispatch = useDispatch()
-    const users = useSelector(state => state.users)
     const history = useHistory()
     let {currentPage} = useParams()
+    const users = useSelector(state => state.users)
     const query = new URLSearchParams(useLocation().search)
     let term = query.get('term')
     useEffect(() => {
@@ -54,8 +54,8 @@ const Users = () => {
             {users.users.map(el => {
                 return <div className={styles.user} key={el.id}>
                     <Link to={`/profile/${el.id}`}>{el.photos.large
-                        ? <img src={el.photos.large} alt=""/>
-                        : <Avatar name={el.name} size="100" maxInitials={2} round="50%" className={styles.sbAvatar} />
+                        ? <img src={el.photos.large} alt=''/>
+                        : <Avatar name={el.name} size='100' maxInitials={2} round='50%' className={styles.sbAvatar} />
                     }</Link>
                     <Link to={`/profile/${el.id}`} className={styles.userName}>{el.name}</Link>
                     { el.followed

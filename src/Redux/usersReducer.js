@@ -1,5 +1,5 @@
-import { followAPI, usersAPI } from "../api/api"
-import { toggleIsFollowed } from "./profileReducer"
+import { followAPI, usersAPI } from '../api/api'
+import { toggleIsFollowed } from './profileReducer'
 
 const SET_USERS = 'users/SET_USERS'
 const TOGGLE_IS_FOLLOWED = 'users/TOGGLE_IS_FOLLOWED'
@@ -44,8 +44,8 @@ const usersReducer = (state = initialState, action) => {
     }
 }
 
-export const getUsers = (page, pageSize, search) => dispatch => {
-    usersAPI.getUsers(page, pageSize, search)
+export const getUsers = (page, pageSize, search, isFriendList) => dispatch => {
+    usersAPI.getUsers(page, pageSize, search, isFriendList)
         .then(response => dispatch({
             type: SET_USERS,
             payload: {

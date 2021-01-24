@@ -1,34 +1,39 @@
-import { followAPI, profileAPI } from "../api/api"
+import { followAPI, profileAPI } from '../api/api'
 
 const SET_PROFILE = 'profile/SET_PROFILE'
 const TOGGLE_FETCHING = 'profile/TOGGLE_FETCHING'
 const SET_STATUS = 'profile/SET_STATUS'
 const IS_FOLLOWED = 'profile/IS_FOLLOWED'
 const TOGGLE_IS_FOLLOWED = 'profile/TOGGLE_IS_FOLLOWED'
+const TOGGLE_IS_PHOTO_UPLOADING = 'profile/TOGGLE_IS_PHOTO_UPLOADING'
+const SET_PHOTO = 'profile/SET_PHOTO'
+const PHOTO_UPLOADING_ERROR_TEXT = 'profile/PHOTO_UPLOADING_ERROR_TEXT'
 
 const initialState = {
-    aboutMe: null,
+    aboutMe: '',
     contacts: {
-        facebook: null,
-        website: null,
-        vk: null,
-        twitter: null,
-        instagram: null,
-        youtube: null,
-        github: null,
-        mainLink: null
+        facebook: '',
+        website: '',
+        vk: '',
+        twitter: '',
+        instagram: '',
+        youtube: '',
+        github: '',
+        mainLink: ''
     },
     lookingForAJob: false,
-    lookingForAJobDescription: null,
-    fullName: null,
+    lookingForAJobDescription: '',
+    fullName: '',
     userId: null,
     photos: {
-        small: null,
-        large: null
+        small: '',
+        large: ''
     },
-    status: null,
+    status: '',
     isFollowed: false,
     isFetching: false,
+    isPhotoUploading: false,
+    photoUploadingErrorText: null
 }
 const profileReducer = (state = initialState, action) => {
     switch (action.type) {
@@ -57,12 +62,30 @@ const profileReducer = (state = initialState, action) => {
                 ...state,
                 isFollowed: !state.isFollowed
             }
+        case TOGGLE_IS_PHOTO_UPLOADING:
+            return {
+                ...state,
+                isPhotoUploading: !state.isPhotoUploading
+            }
+        case SET_PHOTO:
+            return {
+                ...state,
+                photos: {
+                    small: action.small,
+                    large: action.large
+                }
+            }
+        case PHOTO_UPLOADING_ERROR_TEXT:
+            return {
+                ...state,
+                photoUploadingErrorText: action.text
+            }
         default:
             return state
     }
 }
 
-const setStatus = (status) => ({ type: SET_STATUS, status})
+const setStatus = status => ({ type: SET_STATUS, status})
 
 export const setProfileAC = id => dispatch => {
     dispatch({ type: TOGGLE_FETCHING })
@@ -113,6 +136,20 @@ export const updateStatus = status => dispatch => {
     profileAPI.updateStatus(status)
         .then(response => {if (response.resultCode === 0) {
             dispatch(setStatus(status))
+        }})
+}
+
+export const updatePhoto = (photo, setPhotoUploadVisible) => dispatch => {
+    dispatch({type: TOGGLE_IS_PHOTO_UPLOADING})
+    profileAPI.uploadPhoto(photo)
+        .then(response => {if (response.resultCode === 0) {
+            dispatch({type: SET_PHOTO, small:response.data.photos.small, large:response.data.photos.large})
+            dispatch({type: TOGGLE_IS_PHOTO_UPLOADING})
+            dispatch({type: PHOTO_UPLOADING_ERROR_TEXT, text: null})
+            setPhotoUploadVisible(false)
+        } else {
+            dispatch({type: TOGGLE_IS_PHOTO_UPLOADING})
+            dispatch({type: PHOTO_UPLOADING_ERROR_TEXT, text: response.messages[0]})
         }})
 }
 

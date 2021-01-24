@@ -46,10 +46,70 @@
 .profile li::marker {
     color: lightsteelblue;
 }
-.profile a {
+.profile .links {
     text-decoration: none;
     opacity: 0.9;
     color: #545454;
     text-transform: capitalize;
     border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+.btn {
+    font-family: inherit;
+    background-color: #377dff;
+    height: 30px;
+    border-radius: 7px;
+    color: #fff;
+    text-align: center;
+    font-weight: 600;
+    width: 120px;
+    border: none;
+    outline: none;
+    font-size: 14px;
+    margin-top: 5px;
+    transition: 0.2s ease-in;
+    cursor: pointer;
+    margin-right: 7px;
+}
+.btnMessage {
+    text-decoration: none;
+    display: inline-block;
+    line-height: 30px;
+    background-color: #37d65b;
+}
+.btnMessage:hover {
+    background-color: #37d65b;
+    opacity: 0.75;
+}
+.uploadPhoto {
+    opacity: 0.5;
+    color: #1a73e8;
+    cursor: pointer;
+    position: absolute;
+    top: 49px;
+    right: 203px;
+}
+.uploadPhoto:hover {
+    opacity: 0.65;
+}
+.photoUploadForm {
+    margin: 10px 0 20px;
+    text-align: center;
+}
+.photoLoading {
+    margin-top: 5px;
+}
+.photoUploadError {
+    color: tomato;
+    margin-top: 5px;
+}
+
+@media (max-width: 850px) {
+    .profile img{
+        margin-top: -35px;
+    }
+    .uploadPhoto {
+        top: 53px;
+        right: calc(50% - 87px);
+        transform: translateX(50%);
+    }
 }

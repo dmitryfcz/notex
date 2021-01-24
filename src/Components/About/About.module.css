@@ -1,0 +1,16 @@
+.aboutPage {
+    color: #545454;
+    line-height: 25px;
+    padding: 20px;
+}
+.aboutPage h1 {
+    text-align: center;
+    margin-bottom: 35px;
+}
+.aboutPage b {
+    color: #545454;
+    font-weight: 600;
+    text-align: right;
+    display: block;
+    margin-top: 25px;
+}

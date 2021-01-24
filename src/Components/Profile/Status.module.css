@@ -14,6 +14,9 @@
     color: #1a73e8;
     cursor: pointer;
 }
+.status i:hover {
+    opacity: 0.65;
+}
 .form {
     height: 32px;
 }

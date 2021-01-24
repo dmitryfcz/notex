@@ -17,10 +17,14 @@ export const authAPI = {
 		return instance.delete('auth/login')
 			.then(response => response.data)
 	},
-	login(email, password) {
-		return instance.post('auth/login', {email, password, rememberMe: true})
+	login(email, password, captcha) {
+		return instance.post('auth/login', {email, password, rememberMe: true, captcha})
 			.then(response => response.data)
 	},
+	getCaptcha() {
+		return instance.get('security/get-captcha-url')
+			.then(response => response.data)
+	}
 }
 
 export const profileAPI = {
@@ -37,13 +41,24 @@ export const profileAPI = {
 	updateStatus(status) {
 		return instance.put('profile/status', {status})
 			.then(response => response.data)
+	},
+	uploadPhoto(photo) {
+		const formData = new FormData()
+		formData.append('image', photo)
+		return instance.put('profile/photo', formData)
+			.then(response => response.data)
 	}
 }
 
 export const usersAPI = {
-	getUsers(page, pageSize, search) {
-		return instance.get(`users?term=${search}&count=${pageSize}&page=${page}`)
-			.then(response => response.data)
+	getUsers(page, pageSize, search, isFriendList = false) {
+		if (!isFriendList) {
+			return instance.get(`users?term=${search}&count=${pageSize}&page=${page}`)
+				.then(response => response.data)
+		} else {
+			return instance.get(`users?friend=true&count=${pageSize}&page=${page}`)
+				.then(response => response.data)
+		}		
 	}
 }
 

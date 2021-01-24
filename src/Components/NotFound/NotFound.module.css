@@ -5,5 +5,6 @@
 .notfound img {
     display: block;
     margin: 20px auto -20px;
-    max-width: 300px;
+    width: 300px;
+    max-width: 100%;
 }

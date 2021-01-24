@@ -19,3 +19,22 @@
     background-color: #e8f0fe;
     color: #1a73e8;
 }
+
+@media (max-width: 850px) {
+    .navLink span {
+        display: none;
+    }
+    .navLink {
+        padding-left: 0;
+        width: 50px;
+        border-radius: 0;
+    }
+    .navLink:first-child {
+        padding-left: 0;
+    }
+    .navLink img {
+        padding-right: 0;
+        display: block;
+        margin: auto;
+    }
+}

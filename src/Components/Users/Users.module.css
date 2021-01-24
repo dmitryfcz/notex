@@ -54,6 +54,16 @@
 .btn:hover {
     background-color: #1a73e8;
 }
+.btnMessage {
+    text-decoration: none;
+    display: inline-block;
+    line-height: 30px;
+    background-color: #37d65b;
+}
+.btnMessage:hover {
+    background-color: #37d65b;
+    opacity: 0.75;
+}
 .btnUnfollow:hover {
     background-color: #d4180e;
 }
@@ -70,7 +80,7 @@
     border-radius: 5px;
     background-color:#e8f0fe;
     text-decoration: none;
-    padding: 10px 15px;
+    padding: 10px 10px;
     color: #545454;
     display: block;
     line-height: 22px;
@@ -127,4 +137,24 @@
 }
 .search button:hover {
     background-color: #1a73e8;
+}
+
+@media (max-width: 850px) {
+    .users {
+        justify-content: center;
+    }
+    .user {
+        width: 185px;
+        margin-bottom: 50px;
+    }
+    .search {
+        padding-left: 0;
+        padding-right: 0;
+    }
+    .search button {
+        width: 30%;
+    }
+    .navItem {
+        min-width: 40px;
+    }
 }

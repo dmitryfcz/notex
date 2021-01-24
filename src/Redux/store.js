@@ -1,8 +1,8 @@
-import {applyMiddleware, combineReducers, compose, createStore} from "redux"
-import thunk from "redux-thunk"
-import authReducer from "./authReducer"
-import profileReducer from "./profileReducer"
-import usersReducer from "./usersReducer"
+import {applyMiddleware, combineReducers, compose, createStore} from 'redux'
+import thunk from 'redux-thunk'
+import authReducer from './authReducer'
+import profileReducer from './profileReducer'
+import usersReducer from './usersReducer'
 
 const reducers = combineReducers({
 	auth: authReducer,
